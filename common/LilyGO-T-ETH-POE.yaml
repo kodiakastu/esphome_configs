@@ -1,14 +1,16 @@
+#References
 #https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
 #https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
 
-#+---------------------------------------------------------------
-#|  36 [I]    39 [I]
-#|  34 [I]    35 [I]
-#|  16 [OK]   32 SCL    
-#|  33 SDA    12 MOSI
-#|  04 [OK]   15 CLK
-#|  02 MISO   14 [OUT PWM@BOOT]
-#+------------------------------------------------------
+#+-----------------------------+
+#|         GPIO HEADER         |
+#|  36 [I]   39 [I]            |
+#|  34 [I]   35 [I]            |
+#|  16 [OK]  32 SCL            |  
+#|  33 SDA   12 MOSI           |
+#|  04 [OK]  15 CLK            |
+#|  02 MISO  14 [OUTPWM@BOOT]  |
+#+-----------------------------+
 
 esp32:
   board: esp32dev
@@ -45,14 +47,7 @@ i2c:
   scan: true
   
 
-text_sensor:
-#  - platform: template
-#    name: "${DEVICENAME} IP"
-#    entity_category: diagnostic
-#    icon: "mdi:ip-network"
-#    lambda: return { id(eth_${DEVICE_NAME}).get_ip_address().str() };
-#    update_interval: 1h
-    
+text_sensor:    
   - platform: ethernet_info
     ip_address:
       name: "${DEVICENAME} IP"
