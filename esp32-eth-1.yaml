@@ -8,9 +8,6 @@ substitutions:
 <<: !include "common/LilyGO-T-ETH-POE.yaml"
 <<: !include "common/Restart.yaml"
 
-esphome:
-  name: ${DEVICENAME}
-
 # Enable logging
 logger:
 
