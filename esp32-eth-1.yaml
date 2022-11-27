@@ -1,0 +1,62 @@
+#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+#https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
+
+substitutions:
+  DEVICENAME: "esp32-eth-1"
+  DEVICE_NAME: "esp32_eth_1"
+
+<<: !include "common/LilyGO-T-ETH-POE.yaml"
+<<: !include "common/Restart.yaml"
+
+esphome:
+  name: ${DEVICENAME}
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+web_server:
+  port: 80
+
+sensor:
+  - platform: ina226
+    address: 0x40
+    shunt_resistance: 0.1 ohm
+    current:
+      name: "Back Box Current"
+    power:
+      name: "Back Box Power"
+    bus_voltage:
+      name: "Back Box Bus Voltage"
+    max_current: 3.2A
+    update_interval: 30s
+    
+  - platform: aht10
+#   address: 0x38
+    temperature:
+      name: "Outdoor Temperature"
+      filters:
+        - filter_out: 150
+        - filter_out: 87.5
+    humidity:
+      name: "Outdoor Humidity"
+      filters:
+        - quantile:
+    update_interval: 59s
+    
+  - platform: bmp280
+    pressure:
+      name: "Outside Pressure"
+      filters:
+        - lambda: !lambda "
+          if (x >= 850 && x <= 1100) {
+            return x;}
+          else {
+              return -1;}"
+        - filter_out: -1
+    address: 0x77
+    update_interval: 121s

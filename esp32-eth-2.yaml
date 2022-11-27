@@ -1,0 +1,95 @@
+#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+#https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
+
+substitutions:
+  RELAY_DELAY: 100ms
+  DEVICENAME: "esp32-eth-2"
+  DEVICE_NAME: "esp32_eth_2"
+  SMB3LVL1: "smb3lvl1:d=4,o=5,b=80:16g,32c,16g.,16a,32c,16a.,16b,32c,16b,16a.,32g#,16a.,16g,32c,16g.,16a,32c,16a,4b.,32p,16c6,32f,16c.6,16d6,32f,16d.6,16e6,32f,16e6,16d.6,32c#6,16d.6,16c6,32f,16c.6,16d6,32f,16d6,4e.6,32p,16g,32c,16g.,16a,32c,16a.,16b,32c,16b,16a.,32g#,16a.,16c6,8c.6,32p,16c6,4c.6"
+  SMB_FRBL: "SMBFB:d=32,o=5,b=254:g3,d4,g4,g5"
+  SMB_COIN: "smbcoin:d=32,o=5,b=150:b5,4e6"
+  LOZ_THEME: "Zelda1:d=4,o=5,b=125:a#,f.,8a#,16a#,16c6,16d6,16d#6,2f6,8p,8f6,16f.6,16f#6,16g#.6,2a#.6,16a#.6,16g#6,16f#.6,8g#.6,16f#.6,2f6,f6,8d#6,16d#6,16f6,2f#6,8f6,8d#6,8c#6,16c#6,16d#6,2f6,8d#6,8c#6,8c6,16c6,16d6,2e6,g6,8f6,16f,16f,8f,16f,16f,8f,16f,16f,8f,8f,a#,f.,8a#,16a#,16c6,16d6,16d#6,2f6,8p,8f6,16f.6,16f#6,16g#.6,2a#.6,c#7,c7,2a6,f6,2f#.6,a#6,a6,2f6,f6,2f#.6,a#6,a6,2f6,d6,2d#.6,f#6,f6,2c#6,a#,c6,16d6,2e6,g6,8f6,16f,16f,8f,16f,16f,8f,16f,16f,8f,8f"
+  LOZ_SECRET: "Zelda2:d=16,o=5,b=140:g5,f#5,d#5,a4,g#4,e5,g#5,8c6"
+  
+<<: !include "common/LilyGO-T-ETH-POE.yaml"
+<<: !include "common/Restart.yaml"
+
+esphome:
+  name: ${DEVICENAME}
+  on_boot:
+    - priority: 0
+      then:
+        - switch.turn_off: K2_0
+
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: play_rtttl
+      variables:
+        song_str: string
+      then:
+        - rtttl.play:
+            rtttl: !lambda 'return song_str;'
+
+ota:
+
+web_server:
+  port: 80
+
+
+mcp23008:
+  - id: 'mcp23008_0'
+    address: 0x20
+
+# Individual outputs
+output:
+  - platform: gpio
+    id: k2s_0
+    pin:
+      mcp23xxx: mcp23008_0
+      # Use pin number 0
+      number: 2
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: false
+
+  - platform: gpio
+    id: k2r_0
+    pin:
+      mcp23xxx: mcp23008_0
+      # Use pin number 0
+      number: 3
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: false
+
+  - platform: ledc
+    pin: GPIO04
+    id: rtttl_out
+    
+rtttl:
+  output: rtttl_out
+  on_finished_playback:
+    - logger.log: 'Song ended!'
+
+switch:
+  - platform: template
+    name: "K2_0"
+    id: K2_0
+    optimistic: True
+    turn_on_action:
+      then:
+        - output.turn_on: k2s_0
+        - delay: $RELAY_DELAY
+        - output.turn_off: k2s_0
+    turn_off_action:
+      then:
+        - output.turn_on: k2r_0
+        - delay: $RELAY_DELAY
+        - output.turn_off: k2r_0

@@ -1,0 +1,107 @@
+#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+
+substitutions:
+  DEVICENAME: "scm1100-cn-cdm"
+  DEVICE_NAME: "scm1100_cn_cdm"
+  ROOM: CdM
+
+<<: !include "common/Restart.yaml"
+
+esphome:
+  name: ${DEVICENAME}
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+esp32_ble_tracker:
+
+bluetooth_proxy:
+  active: true
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+#  encryption:
+#    key: "+3Dg/n6QkfZz0DtUcC3QPoL1T7PvA5IQU4vTtrIjF9k="
+
+ota:
+  password: "4e6ca24e541ba96c363c88fa54eb5531"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+web_server:
+  port: 80
+
+esp32_touch:
+  setup_mode: false
+
+binary_sensor:
+  - platform: esp32_touch
+    id: hum_s_wt_${ROOM}
+    name: "Hum's Wt ${ROOM}"
+    device_class: moisture
+    pin: GPIO33
+    threshold: 700
+
+  - platform: homeassistant
+    entity_id: switch.hum_s_plug_cdm
+    id: hum_pwr_${ROOM}_sens
+
+  - platform: template
+    name: "Hum's Pwr ${ROOM}"
+    id: hum_pwr_${ROOM}
+    device_class: power
+    lambda: |-
+      return id(hum_pwr_${ROOM}_sens).state;
+
+light:
+  - platform: status_led
+    id: red_led
+    pin: GPIO23
+
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812
+    pin: GPIO25
+    num_leds: 1
+    name: "NeoPixel Light ${ROOM}"
+    effects:
+      - random:
+
+switch:
+  - platform: template
+    name: "Flash Red LED ${ROOM}"
+    optimistic: yes
+    turn_on_action:
+    - while:
+        condition:
+          lambda: 'return true;'
+        then:
+        - light.turn_on: red_led
+        - delay: 850ms 
+        - light.turn_off: red_led
+        - delay: 150ms
+        - light.turn_on: red_led
+        - delay: 150ms 
+        - light.turn_off: red_led
+        - delay: 150ms
+        - light.turn_on: red_led
+        - delay: 150ms 
+        - light.turn_off: red_led
+        - delay: 150ms
+    turn_off_action:
+    - light.turn_off: red_led
+
+sensor:
+#Readings calculated from espTouch sensors
+  - platform: template
+    name: "Hum's Wt ${ROOM} Raw"
+    id: "hum_s_wt_${ROOM}_raw"
+    lambda: |-
+      return ((uint32_t) id(hum_s_wt_${ROOM})->get_value());
