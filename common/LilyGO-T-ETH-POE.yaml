@@ -1,0 +1,58 @@
+#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
+#https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
+
+#+---------------------------------------------------------------
+#|  36 [I]    39 [I]
+#|  34 [I]    35 [I]
+#|  16 [OK]   32 SCL    
+#|  33 SDA    12 MOSI
+#|  04 [OK]   15 CLK
+#|  02 MISO   14 [OUT PWM@BOOT]
+#+------------------------------------------------------
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+#Home assistant Bluetooth proxy
+esp32_ble_tracker:
+
+bluetooth_proxy:
+  active: true
+  
+# Configuration for LILYGO TTGO T-Internet-POE ESP32-WROOM LAN8270A Chip
+ethernet:
+  id: eth_${DEVICE_NAME}
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO17_OUT
+  phy_addr: 0
+  
+
+#SPI config per sd card slot
+spi:
+  clk_pin: GPIO15
+  mosi_pin: GPIO12
+  miso_pin: GPIO02
+  #SD_CS: GPIO13
+
+#I2C chosen for free gpio on header  
+i2c:
+  sda: 33
+  scl: 32
+  scan: true
+  
+
+text_sensor:
+#  - platform: template
+#    name: "${DEVICENAME} IP"
+#    entity_category: diagnostic
+#    icon: "mdi:ip-network"
+#    lambda: return { id(eth_${DEVICE_NAME}).get_ip_address().str() };
+#    update_interval: 1h
+    
+  - platform: ethernet_info
+    ip_address:
+      name: "${DEVICENAME} IP"
