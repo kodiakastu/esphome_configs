@@ -17,10 +17,10 @@ logger:
 
 # Enable Home Assistant API
 api:
-  password: 'B1QPJQ73'
+  password: !secret bt_bridge_ota
 
 ota:
-  password: 'B1QPJQ73'
+  password: !secret bt_bridge_ota
 
 
 # Enable Bluetooth scanning for this ESP32
