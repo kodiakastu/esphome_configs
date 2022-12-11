@@ -1,10 +1,11 @@
-# esphome_configs
-Repo for esphome_configs from Home assistant.
+# Esphome Configs
+Repo for esphome_configs from my local Home Assistant.
 
 There are some common files:
   - Restart.yaml
-    Restart button for that device
+    - Restart button for that device
     
   - LilyGO-T-ETH-POE.yaml
-    GPIO Header Pinout
-    Definitions for DEVICENAME, DEVICE_NAME, board type, bluetooh_proxy, Ethernet, SPI, I2C & ip_address
+    - GPIO Header Pinout
+    - DEVICENAME (esp32-eth-device), DEVICE_NAME (esp32_eth_device) for easy naming and variables in the main config file
+    - board type, bluetooh_proxy, Ethernet, SPI, I2C & ip_address are defined, based on the hardware onboard and free pins
