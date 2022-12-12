@@ -1,7 +1,7 @@
-esphome:
-  name: depth-sensor
-  platform: ESP8266
-  board: d1_mini
+substitutions:
+  DEVICENAME: "depth-sensor"
+
+<<: !include "common/d1-mini.yaml"
 
 # Enable logging
 logger:
@@ -11,15 +11,6 @@ api:
 
 ota:
   password: "eaf85eb2e25747d973789e7d35ab8b81"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
- 
-status_led:
-  pin:
-    number: D4
-    inverted: true
   
 sensor:
   - platform: ultrasonic

@@ -1,0 +1,13 @@
+esphome:
+  name: ${DEVICENAME}
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  
+status_led:
+  pin:
+    number: D4
+    inverted: true
