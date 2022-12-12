@@ -1,11 +1,9 @@
-esphome:
-  name: bt_bridge
-  platform: ESP32
-  board: esp-wrover-kit
+substitutions:
+  DEVICENAME: "bt_bridge"
+  DEVICE_NAME: "bt_bridge"
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+<<: !include "common/esp-wrover-kit.yaml"
+<<: !include "common/Restart.yaml"
 
 # Enable logging
 logger:
@@ -18,12 +16,6 @@ api:
 
 ota:
   password: !secret bt_bridge_ota
-
-# Enable Bluetooth scanning for this ESP32
-esp32_ble_tracker:
-
-bluetooth_proxy:
-  active: true
   
 binary_sensor:
   - platform: gpio
@@ -37,11 +29,6 @@ binary_sensor:
     filters:
       - delayed_on_off: 5s
                 
-sensor:
-  - platform: wifi_signal
-    name: "BT_Bridge WiFi Signal"
-    update_interval: 60s
-
 #Reboot the bluetooth bridge @ 3:30am      
 time:
   - platform: homeassistant
@@ -51,8 +38,4 @@ time:
         hours: 3
         days_of_week: MON-SUN
         then:
-           - button.press: restart1
-button:
-  - platform: restart
-    name: "bt_bridge Restart"
-    id: restart1
+           - button.press: restart_${DEVICE_NAME}

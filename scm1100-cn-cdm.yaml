@@ -6,19 +6,7 @@ substitutions:
   ROOM: CdM
 
 <<: !include "common/Restart.yaml"
-
-esphome:
-  name: ${DEVICENAME}
-
-esp32:
-  board: nodemcu-32s
-  framework:
-    type: arduino
-
-esp32_ble_tracker:
-
-bluetooth_proxy:
-  active: true
+<<: !include "common/esp-wrover-kit.yaml"
 
 # Enable logging
 logger:
@@ -28,10 +16,6 @@ api:
 
 ota:
   password: "4e6ca24e541ba96c363c88fa54eb5531"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
 
 esp32_touch:
   setup_mode: false
