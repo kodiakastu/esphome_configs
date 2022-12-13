@@ -1,5 +1,5 @@
-#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
-#https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
+# Powered by buck converter inside back box (rack 3), Lan by switch inside back box (3.x.2).
+# Monitors the buck converter for that rack & the outside meteo.
 
 substitutions:
   DEVICENAME: "esp32-eth-1"

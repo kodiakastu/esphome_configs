@@ -1,5 +1,5 @@
-#https://randomnerdtutorials.com/esp32-pinout-reference-gpios/
-#https://github.com/Xinyuan-LilyGO/LilyGO-T-ETH-POE
+# Fed by the 12V buck converter in rack 1, lan by distribution switch 4 (1.6.3.6)
+# Monitors main 24V PSU and its batteries.
 
 substitutions:
   DEVICENAME: "esp32-eth-0"
