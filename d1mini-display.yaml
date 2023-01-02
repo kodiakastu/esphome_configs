@@ -10,7 +10,7 @@ esphome:
   on_boot: 
     - priority: -1000
       then:
-        - delay: 10s
+        - delay: 15s
         - button.press: button_refresh_screen
 
 # Enable logging
@@ -129,12 +129,16 @@ display:
 
       it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée"); //npick_state
       if(id(npick_state).state == "Poubelles"){
+        it.print(00, 00 + (47*5), id(mdi_48), "\U000F0A7A");
         it.print(50 + 2, 27 + (47*5), id(stm_14), "Poubelles");
       } else if(id(npick_state).state == "Recyclage"){
+        it.print(00, 00 + (47*5), id(mdi_48), "\U000F139D");
         it.print(50 + 2, 27 + (47*5), id(stm_14), "Recyclage");
       } else if(id(npick_state).state == "Composte"){
+        it.print(00, 00 + (47*5), id(mdi_48), "\U000F1A38");
         it.print(50 + 5, 27 + (47*5), id(stm_14), "Composte");
       } else if(id(npick_state).state == "Encombrants"){
+        it.print(00, 00 + (47*5), id(mdi_48), "\U000F156D");
         it.print(50 + 5, 27 + (47*5), id(stm_12), "Encombrants");
       }
       it.rectangle(0, 0 + (47*5), it.get_width(), 48);
