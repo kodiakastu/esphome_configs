@@ -1,0 +1,13 @@
+file: "fonts/materialdesignicons-webfont.ttf"
+id: mdi_48
+size: 48
+glyphs:
+  - "\U000F072A" # mdi-washing-machine
+  - "\U000F11BC" # mdi-washing-machine-alert
+  - "\U000F0917" # mdi-tumble-dryer
+  - "\U000F11BA" # mdi-tumble-dryer-alert
+  
+  - "\U000F0A7A" # mdi-trash-can-outline
+  - "\U000F139D" # mdi-recycle-variant
+  - "\U000F1A38" # mdi-compost
+  - "\U000F156D" # mdi-sofa-outline

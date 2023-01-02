@@ -1,0 +1,135 @@
+substitutions:
+  DEVICENAME: "d1mini-display"
+
+<<: !include "common/d1-mini.yaml"
+
+esphome:
+  name: ${DEVICENAME}
+  platform: ESP8266
+  board: d1_mini
+  on_boot: 
+    - priority: -1000
+      then:
+        - delay: 10s
+        - button.press: button_refresh_screen
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: refresh_disp1
+      then:
+        - button.press: button_refresh_screen
+ota:
+
+web_server:
+  port: 80
+
+
+text_sensor:
+  - platform: homeassistant
+    id: washer_state
+    entity_id: sensor.ro_washer_state
+  - platform: homeassistant
+    id: dryer_state
+    entity_id: sensor.ro_dryer_state
+
+spi:
+  clk_pin: D5
+  mosi_pin: D7
+
+time:
+  - platform: homeassistant
+    id: time_ha
+
+font:
+  - !include "fonts/stm.yaml"
+
+  - !include "fonts/cm.yaml"
+
+  - !include "fonts/mdi.yaml"
+
+display:
+  - platform: waveshare_epaper
+    id: disp1
+    rotation: 0
+    cs_pin: D8
+    dc_pin: D1
+    busy_pin: D0
+    reset_pin: D2
+    model: 2.90inv2
+    reset_duration: 2ms
+    update_interval: never
+    full_update_every: 1 #full re
+    lambda: |-
+      it.print (50 + 11, 05 + (47*0), id(stm_14), "Laveuse");
+      if(id(washer_state).state == "Terminée"){
+        it.print(00, 00 + (47*0), id(mdi_48), "\U000F11BC");
+        it.print(50 + 7, 27 + (47*0), id(stm_14), "Terminée");
+      } else {
+        it.print (00, 00 + (47*0), id(mdi_48), "\U000F072A");
+      }
+      if(id(washer_state).state == "En marche"){
+        it.print(50 + 3, 27 + (47*0), id(stm_14), "En marche");
+      } else if(id(washer_state).state == "Prête"){
+        it.print(50 + 18, 27 + (47*0), id(stm_14), "Prête");
+      } else if(id(washer_state).state != "Terminée"){
+        it.printf(50, 27 + (47*0), id(stm_14), "%s", id(washer_state).state.c_str());
+      }
+      it.rectangle(0, 0 + (47*0), it.get_width(), 48);
+      it.line(48, 0 + (47*0), 48, 47 + (47*0));
+
+
+      it.print(50 + 7, 05 + (47*1), id(stm_14), "Sécheuse");
+      if(id(dryer_state).state == "Terminée"){
+        it.print(00, 00 + (47*1), id(mdi_48), "\U000F11BA");
+        it.print(50 + 7, 27 + (47*1), id(stm_14), "Terminée");
+      } else {
+        it.print (00, 00 + (47*1), id(mdi_48), "\U000F0917");
+      }
+      if(id(dryer_state).state == "En Marche"){
+        it.print(50 + 3, 27 + (47*1), id(stm_14), "En marche");
+      } else if(id(dryer_state).state == "Prête"){
+        it.print(50 + 18, 27 + (47*1), id(stm_14), "Prête");
+      } else if(id(dryer_state).state != "Terminée"){
+        it.printf(50, 27 + (47*1), id(stm_14), "%s", id(dryer_state).state.c_str());
+      }
+      it.rectangle(0, 0 + (47*1), it.get_width(), 48);
+      it.line(48, 0 + (47*1), 48, 47 + (47*1));
+      
+
+      //it.print(00, 00 + (47*2), id(mdi_48), "\U000F072A");
+      //it.print(50, 05 + (47*2), id(stm_14), "Laveuse");
+      //it.print(50, 27 + (47*2), id(stm_14), "Prête");
+      //it.rectangle(0, 0 + (47*2), it.get_width(), 48);
+      //it.line(48, 0 + (47*2), 48, 47 + (47*2));
+      
+      //it.print(00, 00 + (47*3), id(mdi_48), "\U000F0917");
+      //it.print(50, 05 + (47*3), id(stm_14), "Sécheuse");
+      //it.print(50, 27 + (47*3), id(stm_14), "Prête");
+      //it.rectangle(0, 0 + (47*3), it.get_width(), 48);
+      //it.line(48, 0 + (47*3), 48, 47 + (47*3));
+
+      //it.rectangle(0, 0 + (47*4), it.get_width(), 48);
+      //it.line(48, 0 + (47*4), 48, 47 + (47*4));
+      
+      it.rectangle(0, 0 + (47*5), it.get_width(), 48);
+      it.line(48, 0 + (47*5), 48, 47 + (47*5));
+
+      it.rectangle(0, 0 + (47*6), it.get_width(), 14);
+
+
+      it.strftime(7, it.get_height() - 14, id(cm_10), "%Y-%m-%d %H:%M:%S", id(time_ha).now());
+      
+button:
+  - platform: template
+    name: Refresh Screen
+    id: button_refresh_screen
+    on_press:
+      then:
+        - logger.log: Srceen Refresh Called
+        - component.update: disp1
+
+
