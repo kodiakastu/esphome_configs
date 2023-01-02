@@ -18,3 +18,52 @@ ota:
 
 web_server:
   port: 80
+
+sensor:
+  - platform: ina226
+    address: 0x40
+    shunt_resistance: 0.0015 ohm
+    current:
+      name: "Power Plant PSU Current"
+      filters:
+        - delta: 0.01
+#    power:
+#      name: "Back Box Power"
+    bus_voltage:
+      name: "Power Plant PSU Voltage"
+      filters:
+        - delta: 0.01
+    max_current: 20A
+    update_interval: 5s
+
+  - platform: ina226
+    address: 0x41
+    shunt_resistance: 0.0015 ohm
+    current:
+      name: "Power Plant Batteries Current"
+      filters:
+        - delta: 0.01
+#    power:
+#      name: "Back Box Power"
+    bus_voltage:
+      name: "Power Plant Batteries Voltage"
+      filters:
+        - delta: 0.02
+    max_current: 20A
+    update_interval: 5s
+
+  - platform: ina226
+    address: 0x42
+    shunt_resistance: 0.1 ohm
+    current:
+      name: "Power Plant Bus 31 Current"
+      filters:
+        - delta: 0.01
+#    power:
+#      name: "Back Box Power"
+    bus_voltage:
+      name: "Power Plant Bus 31 Voltage"
+      filters:
+        - delta: 0.02
+    max_current: 3.2A
+    update_interval: 5s
