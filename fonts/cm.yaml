@@ -1,4 +1,4 @@
 file: "fonts/chivomono.ttf"
 id: cm_${size}
 size: ${size}
-glyphs: "-°:0123456789C "
+glyphs: "-.°:0123456789C "
