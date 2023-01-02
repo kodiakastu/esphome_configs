@@ -35,6 +35,9 @@ text_sensor:
   - platform: homeassistant
     id: dryer_state
     entity_id: sensor.ro_dryer_state
+  - platform: homeassistant
+    id: npick_state
+    entity_id: input_select.next_pickup
 
 spi:
   clk_pin: D5
@@ -46,9 +49,7 @@ time:
 
 font:
   - !include "fonts/stm.yaml"
-
   - !include "fonts/cm.yaml"
-
   - !include "fonts/mdi.yaml"
 
 display:
@@ -64,6 +65,8 @@ display:
     update_interval: never
     full_update_every: 1 #full re
     lambda: |-
+      //-------------------------------------------------------------------------------
+
       it.print (50 + 11, 05 + (47*0), id(stm_14), "Laveuse");
       if(id(washer_state).state == "Terminée"){
         it.print(00, 00 + (47*0), id(mdi_48), "\U000F11BC");
@@ -81,6 +84,7 @@ display:
       it.rectangle(0, 0 + (47*0), it.get_width(), 48);
       it.line(48, 0 + (47*0), 48, 47 + (47*0));
 
+      //-------------------------------------------------------------------------------
 
       it.print(50 + 7, 05 + (47*1), id(stm_14), "Sécheuse");
       if(id(dryer_state).state == "Terminée"){
@@ -98,31 +102,41 @@ display:
       }
       it.rectangle(0, 0 + (47*1), it.get_width(), 48);
       it.line(48, 0 + (47*1), 48, 47 + (47*1));
-      
+
+      //-------------------------------------------------------------------------------      
 
       //it.print(00, 00 + (47*2), id(mdi_48), "\U000F072A");
       //it.print(50, 05 + (47*2), id(stm_14), "Laveuse");
       //it.print(50, 27 + (47*2), id(stm_14), "Prête");
-      //it.rectangle(0, 0 + (47*2), it.get_width(), 48);
-      //it.line(48, 0 + (47*2), 48, 47 + (47*2));
+      it.rectangle(0, 0 + (47*2), it.get_width(), 48);
+      it.line(48, 0 + (47*2), 48, 47 + (47*2));
       
+      //-------------------------------------------------------------------------------
+
       //it.print(00, 00 + (47*3), id(mdi_48), "\U000F0917");
       //it.print(50, 05 + (47*3), id(stm_14), "Sécheuse");
       //it.print(50, 27 + (47*3), id(stm_14), "Prête");
-      //it.rectangle(0, 0 + (47*3), it.get_width(), 48);
-      //it.line(48, 0 + (47*3), 48, 47 + (47*3));
+      it.rectangle(0, 0 + (47*3), it.get_width(), 48);
+      it.line(48, 0 + (47*3), 48, 47 + (47*3));
 
-      //it.rectangle(0, 0 + (47*4), it.get_width(), 48);
-      //it.line(48, 0 + (47*4), 48, 47 + (47*4));
+      //-------------------------------------------------------------------------------
+
+      it.rectangle(0, 0 + (47*4), it.get_width(), 48);
+      it.line(48, 0 + (47*4), 48, 47 + (47*4));
       
+      //-------------------------------------------------------------------------------
+
+      it.print(50 + 1, 05 + (47*5), id(stm_14), "Proch Levée"); //npick_state
       it.rectangle(0, 0 + (47*5), it.get_width(), 48);
-      it.line(48, 0 + (47*5), 48, 47 + (47*5));
+      it.line(48, 0 + (47*5), 48, 47 + (47*5)); 
 
+      //-------------------------------------------------------------------------------
+      
       it.rectangle(0, 0 + (47*6), it.get_width(), 14);
-
-
       it.strftime(7, it.get_height() - 14, id(cm_10), "%Y-%m-%d %H:%M:%S", id(time_ha).now());
       
+      //-------------------------------------------------------------------------------
+
 button:
   - platform: template
     name: Refresh Screen
