@@ -31,12 +31,12 @@ web_server:
 text_sensor:
   - platform: homeassistant
     id: washer_state
-    entity_id: sensor.ro_washer_state
+    entity_id: input_select.washer_state
   - platform: homeassistant
     id: dryer_state
-    entity_id: sensor.ro_dryer_state
+    entity_id: input_select.dryer_state
   - platform: homeassistant
-    id: npick_state
+    id: next_pickup
     entity_id: input_select.next_pickup
 
 spi:
@@ -127,17 +127,17 @@ display:
       
       //-------------------------------------------------------------------------------
 
-      it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée"); //npick_state
-      if(id(npick_state).state == "Poubelles"){
+      it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée"); //next_pickup
+      if(id(next_pickup).state == "Poubelles"){
         it.print(00, 00 + (47*5), id(mdi_48), "\U000F0A7A");
         it.print(50 + 2, 27 + (47*5), id(stm_14), "Poubelles");
-      } else if(id(npick_state).state == "Recyclage"){
+      } else if(id(next_pickup).state == "Recyclage"){
         it.print(00, 00 + (47*5), id(mdi_48), "\U000F139D");
         it.print(50 + 2, 27 + (47*5), id(stm_14), "Recyclage");
-      } else if(id(npick_state).state == "Composte"){
+      } else if(id(next_pickup).state == "Composte"){
         it.print(00, 00 + (47*5), id(mdi_48), "\U000F1A38");
         it.print(50 + 5, 27 + (47*5), id(stm_14), "Composte");
-      } else if(id(npick_state).state == "Encombrants"){
+      } else if(id(next_pickup).state == "Encombrants"){
         it.print(00, 00 + (47*5), id(mdi_48), "\U000F156D");
         it.print(50 + 5, 27 + (47*5), id(stm_12), "Encombrants");
       }
