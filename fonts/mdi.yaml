@@ -7,6 +7,8 @@ glyphs:
   - "\U000F0917" # mdi-tumble-dryer
   - "\U000F11BA" # mdi-tumble-dryer-alert
   
+  - "\U000F050F" # mdi-thermometer
+  
   - "\U000F0A7A" # mdi-trash-can-outline
   - "\U000F139D" # mdi-recycle-variant
   - "\U000F1A38" # mdi-compost
