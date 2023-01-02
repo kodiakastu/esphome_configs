@@ -129,13 +129,13 @@ display:
 
       it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée"); //npick_state
       if(id(npick_state).state == "Poubelles"){
-        it.print(50 + 7, 27 + (47*5), id(stm_14), "Poubelles");
+        it.print(50 + 2, 27 + (47*5), id(stm_14), "Poubelles");
       } else if(id(npick_state).state == "Recyclage"){
-        it.print(50 + 7, 27 + (47*5), id(stm_14), "Recyclage");
+        it.print(50 + 2, 27 + (47*5), id(stm_14), "Recyclage");
       } else if(id(npick_state).state == "Composte"){
-        it.print(50 + 10, 27 + (47*5), id(stm_14), "Composte");
+        it.print(50 + 5, 27 + (47*5), id(stm_14), "Composte");
       } else if(id(npick_state).state == "Encombrants"){
-        it.print(50 + 1, 27 + (47*5), id(stm_14), "Encombrants");
+        it.print(50 + 5, 27 + (47*5), id(stm_12), "Encombrants");
       }
       it.rectangle(0, 0 + (47*5), it.get_width(), 48);
       it.line(48, 0 + (47*5), 48, 47 + (47*5)); 
