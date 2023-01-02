@@ -38,9 +38,13 @@ text_sensor:
   - platform: homeassistant
     id: next_pickup
     entity_id: input_select.next_pickup
+
+sensor:
   - platform: homeassistant
     id: ext_temp
     entity_id: sensor.outdoor_temperature
+    unit_of_measurement: "°C"
+    accuracy_decimals: 0   
 
 spi:
   clk_pin: D5
@@ -52,7 +56,7 @@ time:
 
 font:
   - !include { file: "fonts/cm.yaml", vars: { size: 10 } }
-  - !include { file: "fonts/cm.yaml", vars: { size: 14 } }
+  - !include { file: "fonts/cm.yaml", vars: { size: 20 } }
   - !include "fonts/mdi.yaml"
   - !include { file: "fonts/stm.yaml", vars: { size: 12 } }
   - !include { file: "fonts/stm.yaml", vars: { size: 14 } }
@@ -124,7 +128,7 @@ display:
 
       it.print(00, 00 + (47*4), id(mdi_48), "\U000F050F");
       it.print(50 + 7, 05 + (47*4), id(stm_14), "Temp Ext");
-      it.printf(50 + 7, 27 + (47*4), id(cm_14), "%s°C", id(ext_temp).state.c_str());
+      it.printf(50 + 2, 27 - 4 + (47*4), id(cm_20), "%3.0f°C", id(ext_temp).state);
       it.rectangle(0, 0 + (47*4), it.get_width(), 48);
       it.line(48, 0 + (47*4), 48, 47 + (47*4));
       
