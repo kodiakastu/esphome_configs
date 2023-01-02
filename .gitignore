@@ -9,4 +9,3 @@
 **/platformio.ini
 /secrets.yaml
 /common/secrets.yaml
-esp32-eth-2.yaml
