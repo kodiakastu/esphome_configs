@@ -38,6 +38,9 @@ text_sensor:
   - platform: homeassistant
     id: next_pickup
     entity_id: input_select.next_pickup
+  - platform: homeassistant
+    id: ext_temp
+    entity_id: sensor.outdoor_temperature
 
 spi:
   clk_pin: D5
@@ -48,7 +51,8 @@ time:
     id: time_ha
 
 font:
-  - !include "fonts/cm.yaml"
+  - !include { file: "fonts/cm.yaml", vars: { size: 10 } }
+  - !include { file: "fonts/cm.yaml", vars: { size: 14 } }
   - !include "fonts/mdi.yaml"
   - !include { file: "fonts/stm.yaml", vars: { size: 12 } }
   - !include { file: "fonts/stm.yaml", vars: { size: 14 } }
@@ -106,28 +110,27 @@ display:
 
       //-------------------------------------------------------------------------------      
 
-      //it.print(00, 00 + (47*2), id(mdi_48), "\U000F072A");
-      //it.print(50, 05 + (47*2), id(stm_14), "Laveuse");
-      //it.print(50, 27 + (47*2), id(stm_14), "Prête");
-      it.rectangle(0, 0 + (47*2), it.get_width(), 48);
-      it.line(48, 0 + (47*2), 48, 47 + (47*2));
+
+      //it.rectangle(0, 0 + (47*2), it.get_width(), 48);
+      //it.line(48, 0 + (47*2), 48, 47 + (47*2));
       
       //-------------------------------------------------------------------------------
 
-      //it.print(00, 00 + (47*3), id(mdi_48), "\U000F0917");
-      //it.print(50, 05 + (47*3), id(stm_14), "Sécheuse");
-      //it.print(50, 27 + (47*3), id(stm_14), "Prête");
-      it.rectangle(0, 0 + (47*3), it.get_width(), 48);
-      it.line(48, 0 + (47*3), 48, 47 + (47*3));
+
+      //it.rectangle(0, 0 + (47*3), it.get_width(), 48);
+      //it.line(48, 0 + (47*3), 48, 47 + (47*3));
 
       //-------------------------------------------------------------------------------
 
+      it.print(00, 00 + (47*4), id(mdi_48), "\U000F050F");
+      it.print(50 + 7, 05 + (47*4), id(stm_14), "Temp Ext");
+      it.printf(50 + 7, 27 + (47*4), id(cm_14), "%s°C", id(ext_temp).state.c_str());
       it.rectangle(0, 0 + (47*4), it.get_width(), 48);
       it.line(48, 0 + (47*4), 48, 47 + (47*4));
       
       //-------------------------------------------------------------------------------
 
-      it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée"); //next_pickup
+      it.print(50 + 5, 05 + (47*5), id(stm_12), "Proch Levée");
       if(id(next_pickup).state == "Poubelles"){
         it.print(00, 00 + (47*5), id(mdi_48), "\U000F0A7A");
         it.print(50 + 2, 27 + (47*5), id(stm_14), "Poubelles");
