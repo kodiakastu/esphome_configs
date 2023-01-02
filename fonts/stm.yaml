@@ -1,4 +1,4 @@
 file: "fonts/sharetechmono.ttf"
-id: stm_14
-size: 14
+id: stm_${size}
+size: ${size}
 glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz éêè"
