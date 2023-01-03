@@ -53,6 +53,10 @@ spi:
 time:
   - platform: homeassistant
     id: time_ha
+    on_time:
+      - cron: '* * /2 * * *'
+        then:
+          - button.press: button_refresh_screen
 
 font:
   - !include { file: "fonts/cm.yaml", vars: { size: 10 } }
