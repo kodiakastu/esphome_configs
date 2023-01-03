@@ -54,7 +54,7 @@ time:
   - platform: homeassistant
     id: time_ha
     on_time:
-      - cron: '* * /2 * * *'
+      - cron: '0 0 /2 * * *'
         then:
           - button.press: button_refresh_screen
 
