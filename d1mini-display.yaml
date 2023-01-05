@@ -40,6 +40,10 @@ text_sensor:
     entity_id: input_select.next_pickup
 
 sensor:
+  - platform: wifi_signal
+    name: "${DEVICENAME} WiFi Signal"
+    update_interval: 60s
+    
   - platform: homeassistant
     id: ext_temp
     entity_id: sensor.outdoor_temperature
