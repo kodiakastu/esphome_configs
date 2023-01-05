@@ -1,3 +1,15 @@
+#  D1 Mini Pinout / Functions
+#+----------------------------+
+#|   RESET  RST | TX IO01 TX0 |
+#| TOUT ADC0 A0 | RX IO03 RX0 |
+#| WAKE IO16 D0 | D1 IO05 SCL |
+#|  SCK IO14 D5 | D2 IO04 SDA |
+#| MISO IO12 D6 | D3 IO00     |
+#| MOSI IO13 D7 | D4 IO02 LED |
+#|   SS IO15 D8 |  G GROUND   |
+#|   3V3 OUT 3V | 5v 5VOLT IN |
+#+----------------------------+
+
 esphome:
   name: ${DEVICENAME}
   platform: ESP8266
