@@ -1,5 +1,5 @@
 # Esphome Configs
-Repo for esphome_configs from my local Home Assistant.
+## Repo for esphome_configs from my local Home Assistant.
 
 There's some common "function" files:
   - Restart.yaml
