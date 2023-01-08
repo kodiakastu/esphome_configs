@@ -2,6 +2,7 @@ substitutions:
   DEVICENAME: "d1mini-display"
 
 <<: !include "common/d1-mini.yaml"
+<<: !include "common/Restart.yaml"
 
 esphome:
   name: ${DEVICENAME}
@@ -39,6 +40,7 @@ text_sensor:
     id: next_pickup
     entity_id: input_select.next_pickup
 
+
 sensor:
   - platform: wifi_signal
     name: "${DEVICENAME} WiFi Signal"
@@ -48,7 +50,17 @@ sensor:
     id: ext_temp
     entity_id: sensor.outdoor_temperature
     unit_of_measurement: "°C"
-    accuracy_decimals: 0   
+    accuracy_decimals: 0
+
+
+binary_sensor:
+  - platform: homeassistant
+    id: wt_cdm
+    entity_id: binary_sensor.hum_s_wt_cdm
+  - platform: homeassistant
+    id: wt_cho
+    entity_id: binary_sensor.hum_s_wt_cho
+
 
 spi:
   clk_pin: D5
@@ -122,9 +134,21 @@ display:
 
       //-------------------------------------------------------------------------------      
 
-
-      //it.rectangle(0, 0 + (47*2), it.get_width(), 48);
-      //it.line(48, 0 + (47*2), 48, 47 + (47*2));
+      if(id(wt_cdm).state && id(wt_cho).state){
+        it.print(00, 00 + (47*2), id(mdi_48), "\U000F1099");
+        it.print(50 + 2, 05 + (47*2), id(stm_14), "Humidific");
+        it.print(50 + 2, 27 + (47*2), id(stm_14), "    OK   ");
+      } else {
+        it.print(00, 00 + (47*2), id(mdi_48), "\U000F058D");
+      }
+      if(!id(wt_cdm).state){
+        it.print(50 + 2, 05 + (47*2), id(stm_14), "Ch Maitre");
+      }
+      if(!id(wt_cho).state){ 
+        it.print(50 + 2, 27 + (47*2), id(stm_14), "Ch Enfant");
+      }
+      it.rectangle(0, 0 + (47*2), it.get_width(), 48);
+      it.line(48, 0 + (47*2), 48, 47 + (47*2));
       
       //-------------------------------------------------------------------------------
 

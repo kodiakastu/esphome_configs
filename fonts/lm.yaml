@@ -1,0 +1,4 @@
+file: "fonts/liberationmono.ttf"
+id: lm_${size}
+size: ${size}
+glyphs: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz éêè◄►"
