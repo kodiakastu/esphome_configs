@@ -1,8 +1,8 @@
 substitutions:
   DEVICENAME: "d1mini-display"
+  DEVICE_NAME: "d1mini_display"
 
 <<: !include "common/d1-mini.yaml"
-<<: !include "common/Restart.yaml"
 
 esphome:
   name: ${DEVICENAME}
@@ -198,5 +198,7 @@ button:
       then:
         - logger.log: Srceen Refresh Called
         - component.update: disp1
-
+  - platform: restart
+    name: "${DEVICENAME} Reboot"
+    id: restart_${DEVICE_NAME}
 
